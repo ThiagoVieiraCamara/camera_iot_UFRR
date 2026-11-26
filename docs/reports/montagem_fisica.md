@@ -28,11 +28,9 @@ Recomendações:
 
 | Item | Recomendação |
 | :--- | :--- |
-| Cabo | Cabo próprio para Pi Zero 2 W(ponta estreita), com os contatos virados para a placa |
-| Foco | Camera Module 3: foco automático. Camera Module v2: foco fixo, pode precisar de ajuste para perto. |
+| Cabo | Cabo próprio para Pi Zero 2 W (ponta estreita), com os contatos virados para a placa |
+| Foco | Camera OV5647 |
 | Orientação | Se ficar de cabeça para baixo, use `--rotation 180` nos testes com `rpicam-vid` |
-
-**[Preencher]** Modelo de câmera usado e exemplos de quadros gravados (`docs/img/registros/`).
 
 ---
 
@@ -40,9 +38,7 @@ Recomendações:
 
 | Opção | Observação |
 | :--- | :--- |
-| Fonte 5 V da tomada | Mais simples para testes |
-
-**[Preencher]** Fonte usada e autonomia medida.
+| Conexão USB raspberry pi zero 2 W com o computador | Mais simples para testes |
 
 ---
 
