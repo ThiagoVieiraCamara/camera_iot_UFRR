@@ -1,5 +1,9 @@
 # Ligações elétricas
 
+![Diagrama de ligações do HC-SR04 com divisor de tensão no Raspberry Pi Zero W](img/ligacoes.png)
+
+O script que gera essa imagem é `img/fontes/ligacoes.py`.
+
 ## Sensor HC-SR04
 
 | HC-SR04 | Raspberry Pi Zero W | Observação |

@@ -1,0 +1,45 @@
+// Arquitetura do Camera Trap (gera docs/img/arquitetura.png)
+// dot -Tpng -Gdpi=150 arquitetura.dot -o ../arquitetura.png
+digraph arquitetura {
+    rankdir=LR;
+    compound=true;
+    fontname="DejaVu Sans";
+    node [fontname="DejaVu Sans", fontsize=11, shape=box, style="rounded,filled",
+          fillcolor="#FFFFFF", color="#555555"];
+    edge [fontname="DejaVu Sans", fontsize=9, color="#555555"];
+
+    subgraph cluster_hw_in {
+        label="Sensores"; style="rounded,dashed"; color="#999999"; fontsize=11;
+        hcsr04 [label="HC-SR04\n(ultrassom 40 kHz)", fillcolor="#FFF4E0", color="#C98A1B"];
+        cam    [label="Módulo de câmera\n(CSI)", fillcolor="#FFF4E0", color="#C98A1B"];
+    }
+
+    subgraph cluster_pi {
+        label="Raspberry Pi Zero W  —  pacote Python cameratrap"; style="rounded"; color="#3B6EA8"; fontsize=11;
+        node [fillcolor="#EEF3FB", color="#3B6EA8"];
+        sensor  [label="sensor.py\nSensorUltrassonico\n(gpiozero)"];
+        logica  [label="logica.py\nFiltroPresenca\nMaquinaEstados\n(sem hardware)", fillcolor="#E8F5E9", color="#3C8D40"];
+        app     [label="app.py\nlaço principal\n(10 leituras/s)"];
+        camera  [label="camera.py\nCamera\n(Picamera2 + H.264\n+ buffer circular)"];
+        arm     [label="armazenamento.py\nCSV, nomes,\nffmpeg → .mp4"];
+        config  [label="config.py\nparâmetros", shape=note, fillcolor="#FFFFFF"];
+    }
+
+    subgraph cluster_out {
+        label="Saídas"; style="rounded,dashed"; color="#999999"; fontsize=11;
+        sd  [label="Cartão microSD\n~/gravacoes\n(.mp4 + visitas.csv)", shape=cylinder, fillcolor="#F5F5F5"];
+        pc  [label="Computador / celular\n(SSH, SFTP, HTTP)", fillcolor="#F5F5F5"];
+    }
+
+    hcsr04 -> sensor [label="GPIO23 Trig\nGPIO24 Echo\n(divisor 5→3,3 V)"];
+    cam    -> camera [label="CSI"];
+    sensor -> app    [label="distância (m)"];
+    app    -> logica [label="distância, horário"];
+    logica -> app    [label="Ação: INICIAR /\nPARAR / NENHUMA"];
+    app    -> camera [label="começar / parar vídeo"];
+    app    -> arm    [label="registrar visita"];
+    camera -> sd     [label=".h264"];
+    arm    -> sd;
+    config -> app    [style=dotted, arrowhead=none];
+    sd     -> pc     [label="Wi-Fi 2,4 GHz", style=dashed];
+}

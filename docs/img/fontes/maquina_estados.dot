@@ -1,0 +1,31 @@
+// Máquina de estados do Camera Trap (gera docs/img/maquina_estados.png)
+// dot -Tpng -Gdpi=150 maquina_estados.dot -o ../maquina_estados.png
+digraph maquina_estados {
+    rankdir=LR;
+    fontname="DejaVu Sans";
+    node [fontname="DejaVu Sans", fontsize=12, shape=box, style="rounded,filled",
+          fillcolor="#EEF3FB", color="#3B6EA8", penwidth=1.4, margin="0.25,0.12"];
+    edge [fontname="DejaVu Sans", fontsize=10, color="#555555"];
+
+    inicio [shape=circle, label="", width=0.25, style=filled, fillcolor="#333333"];
+    fim    [shape=doublecircle, label="", width=0.2, style=filled, fillcolor="#333333"];
+
+    INICIALIZACAO [label="INICIALIZAÇÃO\n(calibração do sensor)"];
+    ESPERANDO     [label="ESPERANDO\n(buffer circular ativo)"];
+    GRAVANDO      [label="GRAVANDO\n(salvando vídeo no cartão)", fillcolor="#FCEBEA", color="#B5483F"];
+    ENCERRANDO    [label="ENCERRANDO\n(fecha vídeo, câmera e GPIO)", fillcolor="#F2F2F2", color="#777777"];
+
+    inicio -> INICIALIZACAO;
+    INICIALIZACAO -> ESPERANDO  [label="fundo calibrado\n+ câmera ligada (2 s)"];
+    INICIALIZACAO -> fim        [label="fundo perto demais\n(limite ≤ 5 cm)", style=dashed];
+
+    ESPERANDO -> GRAVANDO  [label="presença confirmada\n(3 leituras < limite)\nE fim da pausa"];
+    ESPERANDO -> ESPERANDO [label="presença, mas cartão\n< 500 MB livres\n/ espera 60 s", style=dashed];
+
+    GRAVANDO -> GRAVANDO   [label="presença\n/ renova último_presente"];
+    GRAVANDO -> ESPERANDO  [label="ausente ≥ 5 s  OU  vídeo ≥ 60 s\n/ registra CSV, converte .mp4,\npausa de 5 s"];
+
+    ESPERANDO -> ENCERRANDO [label="Ctrl+C / SIGTERM", style=dotted];
+    GRAVANDO  -> ENCERRANDO [label="Ctrl+C / SIGTERM\n/ fecha o vídeo atual", style=dotted];
+    ENCERRANDO -> fim;
+}

@@ -45,7 +45,8 @@ INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.py \
                          *.md
 RECURSIVE              = YES
-EXCLUDE                = docs/doxygen
+EXCLUDE                = docs/doxygen \
+                         docs/img/fontes
 USE_MDFILE_AS_MAINPAGE = README.md
 IMAGE_PATH             = docs/img \
                          assets

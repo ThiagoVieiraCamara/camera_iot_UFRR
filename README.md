@@ -1,10 +1,10 @@
-# Camera que detecta objetos e grava videos (Raspberry Pi Zero 2 W + HC-SR04)
+# Camera Trap para Observação de Animais (Raspberry Pi Zero W + HC-SR04)
 
-Câmera que grava vídeos automaticamente quando um algo aparece na frente do sensor. Ela usa um Raspberry Pi Zero 2 W, um módulo de câmera e um sensor ultrassônico HC-SR04.
+Câmera que grava vídeos automaticamente quando um animal aparece na frente do sensor. Ela usa um Raspberry Pi Zero W, um módulo de câmera e um sensor ultrassônico HC-SR04.
 
 ## Sobre o projeto
 
-*Protótipo desenvolvido com a tutela do [Prof. Herbert Rocha](https://github.com/hbgit), Universidade Federal de Roraima(UFRR), 2026.2.*
+> **[Preencher]** Disciplina, instituição e semestre. Exemplo: *Projeto desenvolvido para a disciplina XXXX – Sistemas Embarcados, Universidade XXXX, 2026.*
 
 O objetivo é observar animais sem a presença humana. O sistema fica parado no local, detecta quando algo se aproxima e salva um vídeo que **inclui os segundos anteriores ao disparo**. Assim o vídeo mostra o animal chegando. Cada visita também fica registrada num arquivo CSV com data, hora e duração.
 
@@ -24,7 +24,8 @@ camera_trap/
 ├── scripts/               Utilitários (ex.: teste_sensor.py para testar as ligações)
 ├── systemd/               Serviço para iniciar o programa sozinho no boot
 ├── docs/                  Requisitos, ligações, manual de operação e guia do Doxygen
-│   └── img/               Fotos e diagramas do projeto
+│   ├── reports/           Relatório técnico, comparação com a literatura, análise da FSM, montagem
+│   └── img/               Diagramas (e fontes em img/fontes/) e fotos do projeto
 ├── assets/                Imagens usadas no README
 ├── Doxyfile               Configuração da documentação do código (Doxygen)
 └── README.md
@@ -34,10 +35,13 @@ camera_trap/
 
 | Componente | Função |
 |---|---|
-| Raspberry Pi Zero 2 W | Controla tudo e grava os vídeos |
+| Raspberry Pi Zero W | Controla tudo e grava os vídeos |
 | Módulo de câmera (v2, v3 ou NoIR) e cabo para Pi Zero | Captura do vídeo |
 | Sensor ultrassônico HC-SR04 | Detecta quando algo se aproxima |
+| Resistores de 1 kΩ e 2 kΩ | Divisor de tensão para o pino Echo (5 V → 3,3 V) |
 | Cartão microSD (de preferência "High Endurance") | Sistema e vídeos |
+| Fonte 5 V / powerbank | Alimentação |
+| Caixa vedada | Proteção no campo |
 
 ## Software utilizado
 
@@ -69,6 +73,15 @@ Todos esses valores podem ser ajustados em [`src/cameratrap/config.py`](src/came
 > ⚠️ **Nunca ligue o Echo direto no Raspberry Pi.** O sinal é de 5 V e pode queimar o GPIO. Detalhes em [docs/ligacoes.md](docs/ligacoes.md).
 
 A câmera vai no conector CSI do Pi Zero.
+
+## Relatório técnico
+
+A documentação técnica completa está em [`docs/reports/`](docs/reports/):
+
+- [Relatório técnico](docs/reports/relatorio_tecnico.md): arquitetura, inovação, testes, limitações e evolução
+- [Comparação com a literatura](docs/reports/comparacao_literatura.md): quatro trabalhos acadêmicos sobre camera traps
+- [Análise da máquina de estados](docs/reports/analise_maquina_estados.md): estados, transições e testes
+- [Montagem física](docs/reports/montagem_fisica.md): caixa, posicionamento do sensor e lista de materiais
 
 ## Instalação e uso
 
@@ -108,7 +121,9 @@ Depois abra `docs/doxygen/html/index.html` no navegador. Instalação e detalhes
 
 ## Autores
 
-- Nome – [@ThiagoVieiraCamara](https://github.com/ThiagoVieiraCamara)
+> **[Preencher]**
+
+- Nome – [@usuario](https://github.com/usuario)
 
 ## Fotos
 
