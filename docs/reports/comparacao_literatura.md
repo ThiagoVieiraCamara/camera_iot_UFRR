@@ -1,4 +1,4 @@
-# 📚 Revisão comparativa da literatura
+# Revisão comparativa da literatura
 
 Esta seção compara o projeto com **quatro trabalhos acadêmicos** sobre armadilhas fotográficas (*camera traps*) e sobre o uso do Raspberry Pi em pesquisa biológica. Ela traz:
 
