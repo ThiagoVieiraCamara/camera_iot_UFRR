@@ -3,11 +3,11 @@
 ## 1. Preparar o cartão SD (sem monitor)
 
 1. Instale o **Raspberry Pi Imager** no computador ([raspberrypi.com/software](https://www.raspberrypi.com/software/)).
-2. Escolha **Raspberry Pi Zero** e o sistema **Raspberry Pi OS Lite (32-bit)**, que fica em "Raspberry Pi OS (other)".
+2. Escolha **Raspberry Pi Zero 2 W** e o sistema **Raspberry Pi OS Lite (32-bit)**, que fica em "Raspberry Pi OS (other)".
 3. Na personalização, configure:
    - **Hostname:** ex.: `cameratrap`
    - **Usuário e senha:** só letras minúsculas e números, sem acentos
-   - **Wi-Fi:** rede e senha, país **BR**. O Pi Zero W só conecta em redes **2,4 GHz**.
+   - **Wi-Fi:** rede e senha, país **BR**. O Pi Zero 2 W só conecta em redes **2,4 GHz**.
    - **SSH:** habilitado, com senha
 4. Grave o cartão, coloque no Pi e ligue. O primeiro boot leva de **5 a 10 minutos**.
 
