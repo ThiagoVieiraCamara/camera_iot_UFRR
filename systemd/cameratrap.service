@@ -1,0 +1,18 @@
+# Serviço systemd do Camera Trap.
+# 1. Troque SEU_USUARIO pelo seu usuário do Raspberry Pi (3 lugares).
+# 2. sudo cp cameratrap.service /etc/systemd/system/
+# 3. sudo systemctl daemon-reload && sudo systemctl enable --now cameratrap
+
+[Unit]
+Description=Camera Trap (Raspberry Pi + HC-SR04)
+After=network.target
+
+[Service]
+User=SEU_USUARIO
+WorkingDirectory=/home/SEU_USUARIO/camera_trap/src
+ExecStart=/usr/bin/python3 -m cameratrap
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

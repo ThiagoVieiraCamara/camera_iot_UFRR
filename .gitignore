@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Documentação gerada pelo Doxygen
+docs/doxygen/
+
+# Vídeos e logs de teste (os reais ficam em ~/gravacoes, fora do repositório)
+*.h264
+*.mp4
+*.jpg
+!docs/img/*.jpg
+!assets/*.jpg
+visitas.csv
+gravacoes/
+
+# Editores / sistema
+.idea/
+.DS_Store
+Thumbs.db
