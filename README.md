@@ -1,10 +1,10 @@
 # Camera Trap para Observação de Animais (Raspberry Pi Zero W + HC-SR04)
 
-Câmera que grava vídeos automaticamente quando um animal aparece na frente do sensor. Ela usa um Raspberry Pi Zero W, um módulo de câmera e um sensor ultrassônico HC-SR04.
+Câmera que grava vídeos automaticamente quando um animal aparece na frente do sensor. Ela usa um Raspberry Pi Zero 2 W, um módulo de câmera OV5647 e um sensor ultrassônico HC-SR04.
 
 ## Sobre o projeto
 
-> **[Preencher]** Disciplina, instituição e semestre. Exemplo: *Projeto desenvolvido para a disciplina XXXX – Sistemas Embarcados, Universidade XXXX, 2026.*
+*Projeto desenvolvido no curso de Ciência da Computação sob a tutela do [Prof. Herbert Rocha](https://github.com/hbgit), Universidade Federal de Roraima (UFRR), 2026.2.*
 
 O objetivo é observar animais sem a presença humana. O sistema fica parado no local, detecta quando algo se aproxima e salva um vídeo que **inclui os segundos anteriores ao disparo**. Assim o vídeo mostra o animal chegando. Cada visita também fica registrada num arquivo CSV com data, hora e duração.
 
@@ -35,13 +35,12 @@ camera_trap/
 
 | Componente | Função |
 |---|---|
-| Raspberry Pi Zero W | Controla tudo e grava os vídeos |
-| Módulo de câmera (v2, v3 ou NoIR) e cabo para Pi Zero | Captura do vídeo |
+| Raspberry Pi Zero 2 W | Controla tudo e grava os vídeos |
+| Módulo de câmera OV5647 e cabo para Pi Zero | Captura do vídeo |
 | Sensor ultrassônico HC-SR04 | Detecta quando algo se aproxima |
 | Resistores de 1 kΩ e 2 kΩ | Divisor de tensão para o pino Echo (5 V → 3,3 V) |
 | Cartão microSD (de preferência "High Endurance") | Sistema e vídeos |
 | Fonte 5 V / powerbank | Alimentação |
-| Caixa vedada | Proteção no campo |
 
 ## Software utilizado
 
@@ -61,7 +60,7 @@ O programa é uma **máquina de estados** com dois estados:
 
 Todos esses valores podem ser ajustados em [`src/cameratrap/config.py`](src/cameratrap/config.py).
 
-## Pinagem (Raspberry Pi Zero W)
+## Pinagem (Raspberry Pi Zero 2 W)
 
 | HC-SR04 | Pino físico | GPIO | Observação |
 |---|---|---|---|
@@ -121,9 +120,7 @@ Depois abra `docs/doxygen/html/index.html` no navegador. Instalação e detalhes
 
 ## Autores
 
-> **[Preencher]**
-
-- Nome – [@usuario](https://github.com/usuario)
+- Nome – [@ThiagoVieiraCamara](https://github.com/ThiagoVieiraCamara)
 
 ## Fotos
 
