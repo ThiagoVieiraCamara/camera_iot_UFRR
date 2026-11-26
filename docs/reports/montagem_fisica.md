@@ -1,4 +1,4 @@
-# 🧰 Montagem física e posicionamento
+# Montagem física e posicionamento
 
 ## 1. Posicionamento do sensor
 
