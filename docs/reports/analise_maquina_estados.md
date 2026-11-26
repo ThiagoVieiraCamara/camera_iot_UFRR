@@ -1,4 +1,4 @@
-# ⚙️ Análise da Máquina de Estados (FSM)
+# Análise da Máquina de Estados (FSM)
 
 **Projeto:** Camera IoT para Observação de Animais
 **Módulo:** `src/cameratrap/logica.py` (classes `FiltroPresenca` e `MaquinaEstados`) e `src/cameratrap/app.py`
