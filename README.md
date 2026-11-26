@@ -1,4 +1,4 @@
-# Camera Trap para Observação de Animais (Raspberry Pi Zero W + HC-SR04)
+# Camera Trap para Observação de Animais (Raspberry Pi Zero 2 W + HC-SR04 + Módulo de câmera OV5647)
 
 Câmera que grava vídeos automaticamente quando um animal aparece na frente do sensor. Ela usa um Raspberry Pi Zero 2 W, um módulo de câmera OV5647 e um sensor ultrassônico HC-SR04.
 
