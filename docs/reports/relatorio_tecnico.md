@@ -5,8 +5,8 @@ Projeto: Camera Trap para Observação de Animais (Raspberry Pi Zero W + HC-SR04
 
 **Repositório:** [ThiagoVieiraCamara/camera_iot_UFRR](https://github.com/ThiagoVieiraCamara/camera_iot_UFRR)
 
-**Autores:** **[Preencher]**
-**Instituição / disciplina:** Universidade Federal de Roraima (UFRR) – **[Preencher: disciplina e código]**
+**Autores:** Thiago Vieira Camara
+**Instituição / Curso:** Universidade Federal de Roraima (UFRR) – Ciência da Computação
 **Licença:** MIT
 **Data:** Novembro / 2026
 **Categoria CAPES:** Protótipo, sistema, artefato ou processo computacional com validação funcional.
@@ -22,15 +22,15 @@ Projeto: Camera Trap para Observação de Animais (Raspberry Pi Zero W + HC-SR04
 
 ---
 
-## 📌 1. Visão geral
+## 1. Visão geral
 
-O projeto é uma **armadilha fotográfica (*camera trap*)**: um sistema embarcado que **grava vídeos automaticamente quando um animal se aproxima** de um ponto vigiado, sem a presença de um observador humano.
+O projeto é uma **armadilha fotográfica ("*camera trap*")**: um sistema embarcado que **grava vídeos automaticamente quando um animal se aproxima** de um ponto vigiado, sem a presença de um observador humano.
 
-Um sensor ultrassônico **HC-SR04** mede continuamente a distância até o fundo da cena. Quando algo fica mais perto que o normal, o **Raspberry Pi Zero W** salva um vídeo do módulo de câmera. O vídeo inclui os **segundos anteriores ao disparo**, graças a um buffer circular. Cada visita é registrada num arquivo CSV com data, hora, duração e distância mínima. O sistema opera sem monitor e é acessado pela rede Wi-Fi (SSH).
+Um sensor ultrassônico **HC-SR04** mede continuamente a distância até o fundo da cena. Quando algo fica mais perto que o normal, o **Raspberry Pi Zero 2 W** salva um vídeo do módulo de câmera. O vídeo inclui os **segundos anteriores ao disparo**, graças a um buffer circular. Cada visita é registrada num arquivo CSV com data, hora, duração e distância mínima. O sistema opera sem monitor e é acessado pela rede Wi-Fi (SSH).
 
 ---
 
-## 📐 2. Escopo da solução
+## 2. Escopo da solução
 
 Este relatório aborda:
 
@@ -40,7 +40,7 @@ Este relatório aborda:
 * **Diferenciais técnicos** em relação a trabalhos relacionados
 * **Limitações, recomendações de evolução e conclusões**
 
-### 📚 2.1 Trabalhos relacionados e análises complementares
+### 2.1 Trabalhos relacionados e análises complementares
 
 Para fundamentar as decisões de projeto, foi feita uma comparação com quatro trabalhos acadêmicos (A1–A4) sobre camera traps e sobre o uso do Raspberry Pi em biologia. A comparação analisa os pontos em comum e, principalmente, os **métodos de disparo**: PIR, PIR com confirmação, gatilho ativo, filmagem contínua e ultrassom.
 
@@ -56,14 +56,14 @@ Decisões de montagem, posicionamento do sensor e lista de materiais:
 
 ---
 
-## 🏗️ 3. Arquitetura tecnológica
+## 3. Arquitetura tecnológica
 
-### 🔌 3.1 Hardware
+### 3.1 Hardware
 
 | Componente | Função principal | Características relevantes |
 | ---------- | ---------------- | -------------------------- |
-| **Raspberry Pi Zero W** | Unidade de controle e gravação | CPU de 1 GHz com 1 núcleo, 512 MB de RAM, Wi-Fi 2,4 GHz, conector de câmera CSI |
-| **Módulo de câmera (CSI)** | Captura de vídeo | Codificação H.264 em hardware |
+| **Raspberry Pi Zero 2 W** | Unidade de controle e gravação | CPU de 1 GHz com 1 núcleo, 512 MB de RAM, Wi-Fi 2,4 GHz, conector de câmera CSI |
+| **Módulo de câmera (CSI) OV5647** | Captura de vídeo | Codificação H.264 em hardware |
 | **Sensor ultrassônico HC-SR04** | Detecção de aproximação | 5 V, ~15 mA, 40 kHz, alcance de 2 cm a 4 m, ângulo de ~15° |
 | **Divisor de tensão (1 kΩ + 2 kΩ)** | Adapta o Echo (5 V) ao GPIO (3,3 V) | Protege o Raspberry Pi |
 | **Cartão microSD** | Sistema, vídeos e registro | Recomendado tipo "High Endurance" |
@@ -77,9 +77,9 @@ Decisões de montagem, posicionamento do sensor e lista de materiais:
 
 ---
 
-### 🧠 3.2 Software
+### 3.2 Software
 
-#### 🗂️ 3.2.1 Organização do código
+#### 3.2.1 Organização do código
 
 O software foi escrito em **Python 3**, com as bibliotecas `gpiozero` (sensor) e `Picamera2` (câmera). Ele está dividido em módulos com uma responsabilidade cada:
 
@@ -94,7 +94,7 @@ O software foi escrito em **Python 3**, com as bibliotecas `gpiozero` (sensor) e
 
 A separação entre **lógica** e **hardware** permite testar toda a tomada de decisão no computador, sem o Raspberry Pi (seção 9).
 
-#### 🔄 3.2.2 Máquina de estados
+#### 3.2.2 Máquina de estados
 
 O ciclo de operação segue uma FSM:
 
@@ -105,30 +105,30 @@ O ciclo de operação segue uma FSM:
 
 Veja a [análise completa da FSM](analise_maquina_estados.md).
 
-#### 🎞️ 3.2.3 Buffer circular (gravação pré-disparo)
+#### 3.2.3 Buffer circular (gravação pré-disparo)
 
 Num camera trap comum, o vídeo começa só depois do disparo, e o momento da chegada do animal se perde. Aqui, o codificador H.264 escreve continuamente num **buffer circular em memória** (`CircularOutput` da Picamera2), com os últimos 3 segundos. Quando a gravação começa, esse conteúdo é gravado primeiro no arquivo. O cartão SD só recebe dados durante as visitas, o que economiza espaço e desgaste.
 
-#### 💾 3.2.4 Armazenamento e registro
+#### 3.2.4 Armazenamento e registro
 
 * Vídeos nomeados por data e hora: `AAAA-MM-DD_HH-MM-SS.mp4`.
 * Registro `visitas.csv` com as colunas `inicio`, `fim`, `duracao_s`, `distancia_min_cm` e `arquivo`.
 * Conversão `.h264 → .mp4` sem recodificar (ffmpeg), em segundo plano.
 * Verificação de espaço livre antes de cada gravação.
 
-#### 🖧 3.2.5 Operação sem monitor
+#### 3.2.5 Operação sem monitor
 
 * Acesso por **SSH** pela rede Wi-Fi. Os vídeos são baixados por **SFTP/SCP** ou vistos no navegador por um servidor HTTP simples.
 * Inicialização automática como **serviço systemd** (`systemd/cameratrap.service`), com reinício em caso de falha.
 * Passo a passo no [manual de operação](../manual_de_operacao.md).
 
-#### 📖 3.2.6 Documentação do código
+#### 3.2.6 Documentação do código
 
 Todo o código é documentado no formato **Doxygen** (`@file`, `@brief`, `@param`, `@return`). A documentação HTML é gerada com `doxygen Doxyfile`. Veja o [guia do Doxygen](../doxygen.md).
 
 ---
 
-## 🚀 4. Inovação tecnológica
+## 4. Inovação tecnológica
 
 ### ✓ Gatilho ativo por distância, com calibração automática
 
@@ -148,7 +148,7 @@ Hardware acessível (Raspberry Pi Zero W e HC-SR04) e código aberto sob licenç
 
 ---
 
-## 📈 5. Características e impacto
+## 5. Características e impacto
 
 * **Aplicação educacional:** integra sensores, câmera, GPIO, máquina de estados, Linux embarcado e acesso remoto num único projeto.
 * **Aplicação ecológica:** permite observar animais num ponto fixo (comedouro, bebedouro, toca) sem perturbação humana, com registro de horários de visita.
@@ -156,7 +156,7 @@ Hardware acessível (Raspberry Pi Zero W e HC-SR04) e código aberto sob licenç
 
 ---
 
-## 🧩 6. Diagrama conceitual
+## 6. Diagrama conceitual
 
 ```
 [Sensor HC-SR04] ──distância──> [Raspberry Pi Zero W] <──vídeo── [Módulo de câmera]
@@ -168,7 +168,7 @@ Hardware acessível (Raspberry Pi Zero W e HC-SR04) e código aberto sob licenç
                         [Computador ou celular do usuário]
 ```
 
-## 🔄 7. Diagrama de arquitetura
+## 7. Diagrama de arquitetura
 
 ![Diagrama de arquitetura: HC-SR04 e câmera alimentam os módulos sensor.py e camera.py no Raspberry Pi; app.py consulta logica.py e aciona camera.py e armazenamento.py; os vídeos e o CSV vão para o cartão SD e são acessados pelo computador via Wi-Fi](../img/arquitetura.png)
 
@@ -204,7 +204,7 @@ sequenceDiagram
 
 ---
 
-## 🧪 9. Testes e validação
+## 9. Testes e validação
 
 ### 9.1 Testes automatizados (sem hardware)
 
@@ -246,7 +246,7 @@ Esse teste revelou e corrigiu um defeito: um arquivo `.mp4` incompleto permaneci
 
 ---
 
-## 🧪 10. Avaliação técnica
+## 10. Avaliação técnica
 
 ### ✔ Pontos fortes
 
@@ -256,7 +256,7 @@ Esse teste revelou e corrigiu um defeito: um arquivo `.mp4` incompleto permaneci
 * Operação autônoma (serviço systemd), com desligamento limpo e recuperação de vídeos pendentes.
 * Código modular e documentado (Doxygen).
 
-### ⚠ Limitações
+### Limitações
 
 * **Ultrassom audível para muitos mamíferos.** O pulso de 40 kHz está dentro da audição de cães (até ~45 kHz), gatos (~64 kHz), ratos (~76 kHz), camundongos (~92 kHz) e morcegos (~110 kHz). Isso pode afastar ou atrair esses animais. Aves como a galinha, com audição até ~2 kHz, não o percebem.
 * **Cone de detecção estreito (~15°)**, adequado a pontos de passagem e não a áreas amplas.
@@ -267,7 +267,7 @@ Esse teste revelou e corrigiu um defeito: um arquivo `.mp4` incompleto permaneci
 
 ---
 
-## 📌 11. Recomendações de evolução
+## 11. Recomendações de evolução
 
 | Melhoria futura | Benefício esperado |
 | --- | --- |
@@ -283,13 +283,13 @@ Esse teste revelou e corrigiu um defeito: um arquivo `.mp4` incompleto permaneci
 
 ---
 
-## 🏁 12. Conclusão
+## 12. Conclusão
 
 O projeto implementa uma camera trap funcional e de baixo custo, que combina **sensoriamento ultrassônico, controle por máquina de estados e gravação pré-disparo** num sistema embarcado autônomo. A arquitetura modular, com a lógica separada do hardware, permitiu validar todas as transições de controle por testes automatizados. Isso também facilita a evolução do sistema, por exemplo com a combinação de sensores sugerida pela literatura. As limitações identificadas, principalmente a audibilidade do ultrassom para mamíferos e o cone estreito, orientam o uso do sistema em pontos de passagem e indicam os próximos passos de desenvolvimento.
 
 ---
 
-## 📚 13. Referências
+## 13. Referências
 
 1. Repositório do projeto: *ThiagoVieiraCamara/camera_iot_UFRR*. Disponível em: <https://github.com/ThiagoVieiraCamara/camera_iot_UFRR>.
 2. NAZIR, S. et al. WiseEye: Next Generation Expandable and Programmable Camera Trap Platform for Wildlife Research. *PLoS ONE*, v. 12, n. 1, e0169758, 2017. DOI: 10.1371/journal.pone.0169758.
