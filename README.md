@@ -80,7 +80,7 @@ A documentação técnica completa está em [`docs/reports/`](docs/reports/):
 - [Relatório técnico](docs/reports/relatorio_tecnico.md): arquitetura, inovação, testes, limitações e evolução
 - [Comparação com a literatura](docs/reports/comparacao_literatura.md): quatro trabalhos acadêmicos sobre camera traps
 - [Análise da máquina de estados](docs/reports/analise_maquina_estados.md): estados, transições e testes
-- [Montagem física](docs/reports/montagem_fisica.md): caixa, posicionamento do sensor e lista de materiais
+- [Montagem física](docs/reports/montagem_fisica.md): posicionamento do sensor e lista de materiais
 
 ## Instalação e uso
 
